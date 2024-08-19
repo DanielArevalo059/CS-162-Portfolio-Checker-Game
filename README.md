@@ -1,68 +1,68 @@
-# portfolio-project
+# Checkers Game
 
-For this project you will write a class called Checkers that allows two people to play the game of Checkers. This is a variation of the original Checkers game with modified rules. 
-Read about the Game rules in Checkers.pdf
+This repository contains a Python implementation of a modified Checkers game, designed for two players. The game follows traditional Checkers rules with some variations, allowing for unique gameplay mechanics like king and triple king promotions.
 
+## Game Overview
 
-**Checkers:**
+The `Checkers` class manages the overall game state, including the board and players. It provides methods for creating players, making moves, checking the status of pieces on the board, and determining the winner.
 
-The Checkers object represents the game as played. 
+### Checkers Class
 
-The class should contain information about the board and the players. The board is initialized when the Checkers object is created.
+The `Checkers` class represents the game itself. It manages the board, players, and game rules. Here are the key methods:
 
-It must contain these methods (but may have more if you want):
-* create_player - takes as parameter the player_name and piece_color that the player wants to play with and creates the player object. The parameter piece_color is a string of value "Black" or "White" representing Black or White checkers pieces respectively. This function returns the player object that has been created.
+- **`create_player(player_name, piece_color)`**:
+  - Creates a player with a specified name and checker piece color ("Black" or "White").
+  - Returns the created `Player` object.
 
-* play_game - takes as parameter player_name, starting_square_location and destination_square_location of the piece that the player wants to move. The square_location is a tuple in format (x,y). If a player wants to move a piece from third square in the second row to fourth square in the fifth row, the starting and destination square locations will be (1,2) to (4,3). Following the rules of the game move this piece.
-    
-    * If a player attempts to move a piece out of turn, raise an OutofTurn exception (you'll need to define this exception class).
-    * If a player does not own the checker present in the square_location or if the square_location does not exist on the baord; raise an InvalidSquare exception (you'll need to define this exception class).
-    * If the player_name is not valid, raise an InvalidPlayer exception (you'll need to define this exception class).
-    * This method returns the number of captured pieces, if any, otherwise return 0.
-    * If the destination piece reaches the end of opponent's side it is promoted as a king on the board. If the piece crosses back to its original side it becomes a triple king.
-    * If the piece being moved is a king or a triple king assess the move according to the rules of the game.
-  
-* get_checker_details - takes as parameter a square_location on the board and returns the checker details present in the square_location
-    * Returns None, if no piece is present in the location
-    * If the square_location does not exist on the board, raise an InvalidSquare exception (use the same exception class that was created for play_game function). 
-    * If black piece is present return "Black"
-    * If white piece is present return "White"
-    * If black king piece is present return "Black_king"
-    * If white king piece is present return "White_king"
-    * If black triple king piece is present return "Black_Triple_King"
-    * If white triple king piece is present return "White_Triple_King"
-  
+- **`play_game(player_name, starting_square_location, destination_square_location)`**:
+  - Moves a piece on the board from the starting square to the destination square.
+  - Raises exceptions for invalid moves, such as `OutofTurn`, `InvalidSquare`, or `InvalidPlayer`.
+  - Returns the number of captured pieces, or `0` if no pieces were captured.
 
-* print_board - takes no parameter, prints the current board in the form of an array. Below is an example showing the current board in the initial state (Note, here only the first row is printed, you would print the entire board)
+- **`get_checker_details(square_location)`**:
+  - Returns the details of the checker piece at the specified square location.
+  - Raises an `InvalidSquare` exception if the location is invalid.
+  - Possible return values: `"Black"`, `"White"`, `"Black_king"`, `"White_king"`, `"Black_Triple_King"`, `"White_Triple_King"`, or `None` if no piece is present.
 
-  [[None, "White", None, "White", None, "White", None, "White"],....]
+- **`print_board()`**:
+  - Prints the current state of the board as an array.
 
-*game_winner - takes no parameter, returns the name of player who won the game.
-  If the game has not ended, return "Game has not ended". In this function you need not check this condition - "A less common way to win is when all of your opponent's pieces are blocked so that your opponent can't make any more moves."
+- **`game_winner()`**:
+  - Returns the name of the player who has won the game, or `"Game has not ended"` if the game is still ongoing.
 
-**Player:**
+### Player Class
 
-Player object represents the player in the game. It is initialized with player_name and checker_color that the player has chosen. The parameter piece_color is a string of value "Black" or "White".
+The `Player` class represents a player in the game. It tracks the player's name, piece color, and the number of kings, triple kings, and captured pieces.
 
-* get_king_count - takes no parameter, returns the number of king pieces that the player has
-* get_triple_king_count - takes no parameter, returns the number of triple king pieces that the player has
-* get_captured_pieces_count - takes no parameter, returns the number of opponent pieces that the player has captured
+- **`get_king_count()`**:
+  - Returns the number of king pieces the player has.
 
-In addition to your file containing the code for the above classes, **you must also submit a file that contains unit tests for your classes.  It must have at least five unit tests and use at least two different assert functions.  
+- **`get_triple_king_count()`**:
+  - Returns the number of triple king pieces the player has.
 
-Your files must be named **CheckersGame.py** and **CheckersGameTester.py**
+- **`get_captured_pieces_count()`**:
+  - Returns the number of opponent pieces the player has captured.
 
-For example, your classes will be used as below:
+## Unit Testing
 
+This project includes a file for unit tests called `CheckersGameTester.py`. It contains at least five unit tests that validate the functionality of the `Checkers` and `Player` classes using different assert functions.
+
+## Example Usage
+
+```python
+# Initialize the game
 game = Checkers()
-Player1 = game.create_player("Adam", "White")
 
+# Create players
+Player1 = game.create_player("Adam", "White")
 Player2 = game.create_player("Lucy", "Black")
 
+# Play the game
 game.play_game("Lucy", (5, 6), (4, 7))
+game.play_game("Adam", (2, 1), (3, 0))
 
-game.play_game("Adam", (2,1), (3,0))
+# Get checker details
+checker_details = game.get_checker_details((3, 1))
 
-game.get_checker_details((3,1))
-
-Player1.get_captured_pieces_count()
+# Get captured pieces count
+captured_count = Player1.get_captured_pieces_count()
